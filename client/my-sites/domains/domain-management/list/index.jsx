@@ -91,7 +91,7 @@ export class List extends React.Component {
 					domains={ this.props.domains }
 					position="domain-list"
 					selectedSite={ this.props.selectedSite }
-					ruleWhiteList={ [
+					allowedRules={ [
 						'newDomainsWithPrimary',
 						'newDomains',
 						'unverifiedDomainsCanManage',

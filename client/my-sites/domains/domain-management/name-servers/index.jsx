@@ -133,7 +133,7 @@ class NameServers extends React.Component {
 					domain={ domain }
 					position="domain-name-servers"
 					selectedSite={ this.props.selectedSite }
-					ruleWhiteList={ [ 'pendingTransfer' ] }
+					allowedRules={ [ 'pendingTransfer' ] }
 				/>
 				{ this.warning() }
 				{ this.planUpsellForNonPrimaryDomain( domain ) }
