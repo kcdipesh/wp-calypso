@@ -51,7 +51,7 @@ import {
 	NOT_JETPACK,
 	NOT_WORDPRESS,
 	OUTDATED_JETPACK,
-	SITE_BLACKLISTED,
+	SITE_BLOCKLISTED,
 	WORDPRESS_DOT_COM,
 } from './connection-notice-types';
 
@@ -272,7 +272,7 @@ export class JetpackConnectMain extends Component {
 		}
 
 		if ( this.isError( 'site_blacklisted' ) ) {
-			return SITE_BLACKLISTED;
+			return SITE_BLOCKLISTED;
 		}
 
 		if ( this.checkProperty( 'userOwnsSite' ) ) {

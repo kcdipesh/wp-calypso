@@ -50,7 +50,7 @@ const SiteTitle: React.FunctionComponent< Props > = ( { onSubmit } ) => {
 					spellCheck={ false }
 					autoComplete="off"
 					autoCorrect="off"
-					data-hj-whitelist
+					data-hj-whitelist // @todo(saramarcondes) where is this used?
 				/>
 				{ /* @TODO: add info tip here */ }
 			</div>
