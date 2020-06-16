@@ -122,13 +122,13 @@ function getBuildTargetFromRequest( request ) {
 	let target = isDevelopment ? devTarget : prodTarget;
 
 	if ( isDesktop ) {
-		target = 'fallback';
+		target = 'evergreen';
 	}
 
 	return target === 'fallback' ? null : target;
 }
 
-const ASSETS_PATH = path.join( __dirname, '../', 'bundler' );
+const ASSETS_PATH = path.resolve( __dirname, '../../..' );
 function getAssetsPath( target ) {
 	const result = path.join(
 		ASSETS_PATH,
