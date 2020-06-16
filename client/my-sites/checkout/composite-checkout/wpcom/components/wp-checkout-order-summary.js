@@ -184,7 +184,7 @@ function getPlanFeatures( plan, translate, hasDomainsInCart ) {
 		return [
 			! hasDomainsInCart && translate( 'Free domain for one year' ),
 			translate( 'Unlimited access to our library of Premium Themes' ),
-			translate( 'Subscriber-only content and Pay with PayPal buttons' ),
+			translate( 'Subscriber-only content and payment buttons' ),
 			translate( 'Track your stats with Google Analytics' ),
 		];
 	} else if (
