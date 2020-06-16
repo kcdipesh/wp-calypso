@@ -247,8 +247,8 @@ const buildApp = ( environment ) => {
 				],
 			};
 			mockFs( {
-				'./client/server/bundler/assets-fallback.json': JSON.stringify( assetsFallback ),
-				'./client/server/bundler/assets-evergreen.json': JSON.stringify( assetsFallback ).replace(
+				'./assets-fallback.json': JSON.stringify( assetsFallback ),
+				'./assets-evergreen.json': JSON.stringify( assetsFallback ).replace(
 					/fallback/g,
 					'evergreen'
 				),
@@ -559,14 +559,14 @@ const assertDefaultContext = ( { url, entry } ) => {
 	} );
 
 	describe( 'sets the target in desktop mode', () => {
-		it( 'defaults to fallback in desktop mode', async () => {
+		it( 'defaults to evergreen in desktop mode', async () => {
 			const customApp = buildApp( 'desktop' );
 			customApp.withServerRender( '' );
 			customApp.withMockFilesystem();
 
 			const { request } = await customApp.run( { customApp } );
 
-			expect( request.context.target ).toEqual( 'fallback' );
+			expect( request.context.target ).toEqual( 'evergreen' );
 			expect( request.context.env ).toEqual( 'desktop' );
 		} );
 
@@ -577,7 +577,7 @@ const assertDefaultContext = ( { url, entry } ) => {
 
 			const { request } = await customApp.run( { customApp } );
 
-			expect( request.context.target ).toEqual( 'fallback' );
+			expect( request.context.target ).toEqual( 'evergreen' );
 			expect( request.context.env ).toEqual( 'desktop-development' );
 		} );
 	} );
@@ -1081,7 +1081,7 @@ const assertSection = ( { url, entry, sectionName, secondaryContent, sectionGrou
 		} );
 	} );
 
-	describe( 'default contenxt', () => {
+	describe( 'default context', () => {
 		assertDefaultContext( { url, entry } );
 	} );
 };
@@ -1314,7 +1314,7 @@ describe( 'main app', () => {
 			expect( response.send ).toHaveBeenCalledWith( '<div>page</div>' );
 		} );
 
-		describe( 'default contenxt', () => {
+		describe( 'default context', () => {
 			assertDefaultContext( {
 				url: '/domain-services/renovate',
 				entry: 'entry-domains-landing',
