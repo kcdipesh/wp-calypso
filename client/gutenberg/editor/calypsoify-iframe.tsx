@@ -109,8 +109,6 @@ enum EditorActions {
 	GetCalypsoUrlInfo = 'getCalypsoUrlInfo',
 }
 
-let waitForIframeToInit, waitForIframeToLoad;
-
 class CalypsoifyIframe extends Component<
 	Props & ConnectedProps & ProtectedFormProps & LocalizeProps,
 	State
@@ -131,14 +129,17 @@ class CalypsoifyIframe extends Component<
 	mediaCancelPort: MessagePort | null = null;
 	revisionsPort: MessagePort | null = null;
 	successfulIframeLoad = false;
+	waitForIframeToInit: ReturnType<typeof setInterval> | undefined = undefined;
+	waitForIframeToLoad: ReturnType<typeof setTimeout> | undefined = undefined;
 
 	componentDidMount() {
 		MediaStore.on( 'change', this.updateImageBlocks );
 		window.addEventListener( 'message', this.onMessage, false );
-		waitForIframeToInit = setInterval( () => {
+		this.waitForIframeToInit = setInterval( () => {
 			if ( this.props.shouldLoadIframe ) {
-				clearInterval( waitForIframeToInit );
-				waitForIframeToLoad = setTimeout( () => {
+				clearInterval( this.waitForIframeToInit );
+				this.waitForIframeToLoad = setTimeout( () => {
+					console.log('I am so sick of waiting dude!');
 					window.location.replace( this.props.iframeUrl );
 				}, 6000 ); // One second longer than we give the iframe to load
 			}
@@ -588,7 +589,7 @@ class CalypsoifyIframe extends Component<
 	};
 
 	onIframeLoaded = async ( iframeUrl: string ) => {
-		clearTimeout( waitForIframeToLoad );
+		clearTimeout( this.waitForIframeToLoad );
 		if ( ! this.successfulIframeLoad ) {
 			// Sometimes (like in IE) the WindowActions.Loaded message arrives after
 			// the onLoad event is fired. To deal with this case we'll poll
