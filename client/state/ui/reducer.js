@@ -23,7 +23,6 @@ import layoutFocus from './layout-focus/reducer';
 import masterbarVisibility from './masterbar-visibility/reducer';
 import mediaModal from './media-modal/reducer';
 import npsSurveyNotice from './nps-survey-notice/reducer';
-import oauth2Clients from './oauth2-clients/reducer';
 import payment from './payment/reducer';
 import postTypeList from './post-type-list/reducer';
 import preview from './preview/reducer';
@@ -116,7 +115,6 @@ const reducer = combineReducers( {
 	masterbarVisibility,
 	mediaModal,
 	npsSurveyNotice,
-	oauth2Clients,
 	payment,
 	postTypeList,
 	preview,
