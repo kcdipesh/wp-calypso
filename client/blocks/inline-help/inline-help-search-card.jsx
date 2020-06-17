@@ -35,6 +35,7 @@ class InlineHelpSearchCard extends Component {
 		openResult: PropTypes.func.isRequired,
 		translate: PropTypes.func,
 		query: PropTypes.string,
+		placeholder: PropTypes.string,
 	};
 
 	static defaultProps = {
@@ -96,7 +97,7 @@ class InlineHelpSearchCard extends Component {
 				initialValue={ this.props.query }
 				onSearch={ this.searchHelperHandler }
 				onKeyDown={ this.onKeyDown }
-				placeholder={ this.props.translate( 'Search for help…' ) }
+				placeholder={ this.props.placeholder || this.props.translate( 'Search for help…' ) }
 				delaySearch={ true }
 			/>
 		);
