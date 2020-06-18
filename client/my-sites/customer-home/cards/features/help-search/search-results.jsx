@@ -31,7 +31,7 @@ function HelpSearchResults( {
 	isSearching = false,
 	openResult,
 	searchQuery = '',
-	searchResults = [],
+	searchResults,
 	selectedResultIndex = -1,
 	selectSearchResult,
 	translate = identity,
@@ -71,7 +71,9 @@ function HelpSearchResults( {
 				{ ! isEmpty( searchQuery ) && ! hasAPIResults && (
 					<p className="help-search__empty-results">{ translate( 'No results.' ) }</p>
 				) }
-				<ul className="help-search__results-list">{ searchResults.map( renderHelpLink ) }</ul>
+				<ul className="help-search__results-list">{
+					searchResults.map( renderHelpLink )
+				}</ul>
 			</>
 		);
 	};
