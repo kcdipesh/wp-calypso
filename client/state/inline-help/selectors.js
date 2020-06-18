@@ -54,7 +54,7 @@ export function isRequestingInlineHelpSearchResultsForQuery( state, searchQuery 
  */
 export function getInlineHelpSearchResultsForQuery( state, searchQuery ) {
 	const allResults = get( state, 'inlineHelp.searchResults.search.items' );
-	return get( allResults, [ searchQuery ], null );
+	return get( allResults, [ searchQuery ], [] );
 }
 
 /**
