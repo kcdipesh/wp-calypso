@@ -21,16 +21,21 @@ export const getDesignImageUrl = ( design: Design ) => {
 	// See `bin/generate-gutenboarding-design-thumbnails.js` for generating screenshots.
 	// https://github.com/Automattic/mShots/issues/16
 	// https://github.com/Automattic/wp-calypso/issues/40564
-	if ( ! isEnabled( 'gutenboarding/mshot-preview' ) ) {
-		return `/calypso/page-templates/design-screenshots/${ design.slug }_${ design.template }_${ design.theme }.jpg`;
-	}
-
-	const mshotsUrl = 'https://s.wordpress.com/mshots/v1/';
+	// if ( ! isEnabled( 'gutenboarding/mshot-preview' ) ) {
+	// 	return `/calypso/page-templates/design-screenshots/${ design.slug }_${ design.template }_${ design.theme }.jpg`;
+	// }
+	const mshotsUrl = 'https://s0.wp.com/mshots/v1/';
 	const previewUrl = addQueryArgs( design.src, {
 		font_headings: design.fonts.headings,
 		font_base: design.fonts.base,
 	} );
-	return mshotsUrl + encodeURIComponent( previewUrl );
+	const mshotsRequest = addQueryArgs( mshotsUrl + encodeURIComponent( previewUrl ), {
+		vpw: 1200,
+		vph: 3072,
+		w: 900,
+		h: 1800,
+	} );
+	return mshotsRequest;
 };
 
 /**
