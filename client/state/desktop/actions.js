@@ -11,7 +11,12 @@ import { CANNOT_USE_EDITOR } from 'state/action-types';
  * @param {string} editorUrl	Editor URL being navigated to.
  * @param {string} wpAdminLoginUrl Fallback editor URL redirected from wpAdmin login.
  */
-export const notifyDesktopCannotOpenEditor = ( site, reason, editorUrl, wpAdminLoginUrl ) => {
+export const notifyDesktopCannotOpenEditor = (
+	site,
+	reason,
+	editorUrl,
+	wpAdminLoginUrl = null
+) => {
 	return {
 		type: CANNOT_USE_EDITOR,
 		site,
