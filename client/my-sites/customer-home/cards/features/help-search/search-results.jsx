@@ -27,9 +27,9 @@ import { selectResult } from 'state/inline-help/actions';
 import { localizeUrl } from 'lib/i18n-utils';
 
 function HelpSearchResults( {
-    hasAPIResults = false,
-    isSearching = false,
-    openResult,
+	hasAPIResults = false,
+	isSearching = false,
+	openResult,
 	searchQuery = '',
 	searchResults = [],
 	selectedResultIndex = -1,
@@ -48,10 +48,7 @@ function HelpSearchResults( {
 		} );
 
 		return (
-			<li
-				key={ link ?? key }
-				className={ classes }
-			>
+			<li key={ link ?? key } className={ classes }>
 				<a
 					href={ localizeUrl( link ) }
 					onClick={ selectResultHandler( index ) }
@@ -69,15 +66,12 @@ function HelpSearchResults( {
 			return <PlaceholderLines />;
 		}
 
-		// found something
-		const links = searchResults;
-
 		return (
 			<>
 				{ ! isEmpty( searchQuery ) && ! hasAPIResults && (
 					<p className="help-search__empty-results">{ translate( 'No results.' ) }</p>
 				) }
-				<ul className="help-search__results-list">{ links && links.map( renderHelpLink ) }</ul>
+				<ul className="help-search__results-list">{ searchResults.map( renderHelpLink ) }</ul>
 			</>
 		);
 	};
