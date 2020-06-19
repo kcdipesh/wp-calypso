@@ -148,7 +148,6 @@ export default function WPCOMBusinessAT( { product }: Props ): ReactElement {
 	);
 
 	const { COMPLETE, START } = transferStates;
-	// const [ isOnTransfer, setOnTransfer ] = useState( false );
 
 	// Check if there's a blocking hold.
 	const hasBlockingHold = ! isEligible || ( holds && hasBlockingHoldFunc( holds ) );
@@ -195,7 +194,6 @@ export default function WPCOMBusinessAT( { product }: Props ): ReactElement {
 	// Otherwise, kick off the transfer!
 	const initiateATOrShowWarnings = () => {
 		if ( 0 === warnings?.length && 0 === holds?.length ) {
-			// setOnTransfer( true );
 			trackInitiateAT();
 		} else {
 			setShowDialog( true );
