@@ -1,11 +1,12 @@
 /**
  * External dependencies
  */
-import React, { ReactElement, useState } from 'react';
+import React, { ReactElement, useState, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { translate } from 'i18n-calypso';
 import { Dialog } from '@automattic/components';
+import page from 'page';
 
 /**
  * Internal dependencies
@@ -37,6 +38,8 @@ import {
 	default as HoldList,
 } from 'blocks/eligibility-warnings/hold-list';
 import WarningList from 'blocks/eligibility-warnings/warning-list';
+import { successNotice } from 'state/notices/actions';
+import { requestSite } from 'state/sites/actions';
 
 /**
  * Style dependencies
@@ -139,9 +142,13 @@ export default function WPCOMBusinessAT( { product }: Props ): ReactElement {
 		eligibilityHolds: holds,
 		eligibilityWarnings: warnings,
 	}: EligibilityData = useSelector( ( state ) => getEligibility( state, siteId ) );
+
 	const automatedTransferStatus = useSelector( ( state ) =>
 		getAutomatedTransferStatus( state, siteId )
 	);
+
+	const { COMPLETE, START } = transferStates;
+	// const [ isOnTransfer, setOnTransfer ] = useState( false );
 
 	// Check if there's a blocking hold.
 	const hasBlockingHold = ! isEligible || ( holds && hasBlockingHoldFunc( holds ) );
@@ -152,20 +159,43 @@ export default function WPCOMBusinessAT( { product }: Props ): ReactElement {
 
 	// Handles dispatching automated transfer.
 	const dispatch = useDispatch();
-	const initiateAT = React.useCallback( () => {
+	const initiateAT = useCallback( () => {
 		setShowDialog( false );
 		dispatch( initiateThemeTransfer( siteId, null, '' ) );
 	}, [ dispatch, siteId ] );
+
 	const eventName =
 		product === 'backup'
 			? 'calypso_jetpack_backup_business_at'
 			: 'calypso_jetpack_scan_business_at';
 	const trackInitiateAT = useTrackCallback( initiateAT, eventName );
 
+	// Detect when the transfer is complete to refresh the site data
+	useEffect( () => {
+		if ( automatedTransferStatus === COMPLETE ) {
+			dispatch(
+				successNotice( translate( 'Jetpack features are now activated.' ), {
+					id: 'jetpack-features-on',
+					duration: 5000,
+					displayOnNextPage: true,
+				} )
+			);
+			// Redirect/reload the page to take the new site slug
+			page( '/' );
+
+			// Need to refresh the site data.
+			dispatch( requestSite( siteId ) );
+
+			// todo: Ideally, reload the section with the new siteSlug, but we don't have the new slug yet
+			// page( `/${product}/${siteSlug}`);
+		}
+	}, [ automatedTransferStatus ] );
+
 	// If there are any issues, show a dialog.
 	// Otherwise, kick off the transfer!
 	const initiateATOrShowWarnings = () => {
 		if ( 0 === warnings?.length && 0 === holds?.length ) {
+			// setOnTransfer( true );
 			trackInitiateAT();
 		} else {
 			setShowDialog( true );
@@ -196,7 +226,7 @@ export default function WPCOMBusinessAT( { product }: Props ): ReactElement {
 					<SpinnerButton
 						text={ content.primaryPromo.promoCTA.text }
 						loadingText={ content.primaryPromo.promoCTA.loadingText }
-						loading={ automatedTransferStatus === transferStates.START }
+						loading={ automatedTransferStatus === START }
 						onClick={ initiateATOrShowWarnings }
 						disabled={ hasBlockingHold }
 					/>
